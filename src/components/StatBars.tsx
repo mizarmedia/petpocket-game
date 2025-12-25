@@ -14,9 +14,6 @@ interface StatBarProps {
   label: string
   value: number
   colorClass: string
-  lowColor: string
-  midColor: string
-  highColor: string
 }
 
 function getIconAnimation(value: number): string {
@@ -25,16 +22,9 @@ function getIconAnimation(value: number): string {
   return 'stat-icon-critical'
 }
 
-function getBarColor(value: number, lowColor: string, midColor: string, highColor: string): string {
-  if (value >= 70) return highColor
-  if (value >= 30) return midColor
-  return lowColor
-}
-
-function StatBar({ icon, label, value, lowColor, midColor, highColor }: StatBarProps) {
+function StatBar({ icon, label, value, colorClass }: StatBarProps) {
   const isCritical = value < 20
   const iconAnimation = getIconAnimation(value)
-  const barColor = getBarColor(value, lowColor, midColor, highColor)
 
   return (
     <div className="flex items-center gap-2.5">
@@ -65,10 +55,9 @@ function StatBar({ icon, label, value, lowColor, midColor, highColor }: StatBarP
           {/* Bar fill */}
           <div
             className={`h-full rounded-full transition-all duration-700 ease-out
-                       relative stat-shimmer ${isCritical ? 'stat-critical' : ''}`}
+                       relative stat-shimmer ${isCritical ? 'stat-critical' : ''} ${colorClass}`}
             style={{
-              width: `${Math.max(0, Math.min(100, value))}%`,
-              background: barColor
+              width: `${Math.max(0, Math.min(100, value))}%`
             }}
           >
             {/* Inner highlight */}
@@ -91,36 +80,24 @@ export default function StatBars({ stats }: StatBarsProps) {
           label="Hunger"
           value={stats.hunger}
           colorClass="stat-hunger"
-          lowColor="linear-gradient(90deg, #ef4444, #dc2626)"
-          midColor="linear-gradient(90deg, #f97316, #ea580c)"
-          highColor="linear-gradient(90deg, #22c55e, #16a34a)"
         />
         <StatBar
           icon="💖"
           label="Happiness"
           value={stats.happiness}
           colorClass="stat-happiness"
-          lowColor="linear-gradient(90deg, #ef4444, #dc2626)"
-          midColor="linear-gradient(90deg, #eab308, #ca8a04)"
-          highColor="linear-gradient(90deg, #fbbf24, #f59e0b)"
         />
         <StatBar
           icon="⚡"
           label="Energy"
           value={stats.energy}
           colorClass="stat-energy"
-          lowColor="linear-gradient(90deg, #ef4444, #dc2626)"
-          midColor="linear-gradient(90deg, #84cc16, #65a30d)"
-          highColor="linear-gradient(90deg, #22c55e, #16a34a)"
         />
         <StatBar
           icon="✨"
           label="Clean"
           value={stats.cleanliness}
           colorClass="stat-cleanliness"
-          lowColor="linear-gradient(90deg, #ef4444, #dc2626)"
-          midColor="linear-gradient(90deg, #0ea5e9, #0284c7)"
-          highColor="linear-gradient(90deg, #3b82f6, #2563eb)"
         />
       </div>
 
