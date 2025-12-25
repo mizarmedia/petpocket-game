@@ -1,0 +1,39 @@
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
+
+export default defineConfig({
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.ico'],
+      manifest: {
+        name: 'PetPocket - Pocket Companions',
+        short_name: 'PetPocket',
+        description: 'Collect, raise, and evolve adorable pocket pets!',
+        theme_color: '#FFB6C1',
+        background_color: '#1a1a2e',
+        display: 'standalone',
+        orientation: 'portrait',
+        start_url: '/',
+        icons: [
+          {
+            src: '/icon-192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
+    })
+  ],
+  server: {
+    host: '0.0.0.0',
+    port: 5173
+  }
+})

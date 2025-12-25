@@ -1,0 +1,1347 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  body {
+    margin: 0;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    min-height: 100dvh;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: white;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  #root {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* ========================================
+   GLASS-MORPHISM UTILITIES (KAWAII ENHANCED)
+   ======================================== */
+
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+/* Kawaii Glass Variants */
+.glass-kawaii-pink {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 182, 193, 0.15) 0%,
+    rgba(255, 228, 225, 0.1) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 182, 193, 0.3);
+  box-shadow:
+    0 4px 12px rgba(255, 182, 193, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.glass-kawaii-lavender {
+  background: linear-gradient(
+    135deg,
+    rgba(230, 230, 250, 0.15) 0%,
+    rgba(221, 160, 221, 0.1) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(230, 230, 250, 0.3);
+  box-shadow:
+    0 4px 12px rgba(230, 230, 250, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ========================================
+   SNOWFLAKES
+   ======================================== */
+
+.snowflake {
+  position: fixed;
+  color: white;
+  font-size: 1rem;
+  animation: fall linear infinite;
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   PET ANIMATIONS
+   ======================================== */
+
+@keyframes bounce-pet {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-15px) scale(1.02); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 10px currentColor); }
+  50% { filter: drop-shadow(0 0 25px currentColor); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(2deg); }
+  75% { transform: translateY(4px) rotate(-2deg); }
+}
+
+.pet-bounce {
+  animation: bounce-pet 2s ease-in-out infinite;
+}
+
+.pet-wiggle {
+  animation: wiggle 0.3s ease-in-out;
+}
+
+.pet-happy {
+  animation: bounce-pet 0.5s ease-in-out 3;
+}
+
+.pet-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ========================================
+   CUSTOM PET SPRITE ANIMATIONS
+   ======================================== */
+
+/* Blobby Animations */
+@keyframes blob-bounce {
+  0%, 100% { transform: scaleY(1) scaleX(1) translateY(0); }
+  25% { transform: scaleY(0.9) scaleX(1.1) translateY(5px); }
+  50% { transform: scaleY(1.1) scaleX(0.9) translateY(-10px); }
+  75% { transform: scaleY(0.95) scaleX(1.05) translateY(2px); }
+}
+@keyframes blob-happy {
+  0%, 100% { transform: rotate(-5deg) scale(1); }
+  25% { transform: rotate(5deg) scale(1.1); }
+  50% { transform: rotate(-5deg) scale(1); }
+  75% { transform: rotate(5deg) scale(1.1); }
+}
+@keyframes blob-sad {
+  0%, 100% { transform: scaleY(0.8) translateY(5px); }
+  50% { transform: scaleY(0.75) translateY(8px); }
+}
+@keyframes blob-eat {
+  0%, 100% { transform: scaleX(1); }
+  25% { transform: scaleX(1.2); }
+  50% { transform: scaleX(0.9); }
+  75% { transform: scaleX(1.1); }
+}
+@keyframes blob-sleep {
+  0%, 100% { transform: scaleY(0.7) scaleX(1.2); opacity: 0.8; }
+  50% { transform: scaleY(0.65) scaleX(1.25); opacity: 0.7; }
+}
+
+/* Fox Animations */
+@keyframes fox-idle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes fox-tail {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+}
+@keyframes fox-happy-tail {
+  0%, 100% { transform: rotate(-20deg); }
+  50% { transform: rotate(20deg); }
+}
+@keyframes fox-ears {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg); }
+  75% { transform: rotate(5deg); }
+}
+@keyframes fox-sad {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(3px) rotate(-2deg); }
+}
+@keyframes fox-eat {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.95); }
+}
+@keyframes fox-sleep {
+  0%, 100% { transform: scaleY(0.9); }
+  50% { transform: scaleY(0.85); }
+}
+
+/* Dragon Animations */
+@keyframes dragon-hover {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-5px) rotate(2deg); }
+  50% { transform: translateY(-8px) rotate(0deg); }
+  75% { transform: translateY(-5px) rotate(-2deg); }
+}
+@keyframes dragon-fire {
+  0% { opacity: 0; transform: scale(0.5) translateX(0); }
+  50% { opacity: 1; transform: scale(1) translateX(10px); }
+  100% { opacity: 0; transform: scale(1.2) translateX(20px); }
+}
+@keyframes dragon-wings {
+  0%, 100% { transform: scaleY(1) rotate(0deg); }
+  50% { transform: scaleY(1.1) rotate(5deg); }
+}
+@keyframes dragon-happy {
+  0%, 100% { transform: translateY(-5px) scale(1); }
+  50% { transform: translateY(-15px) scale(1.05); }
+}
+@keyframes dragon-sad {
+  0%, 100% { transform: translateY(5px); }
+  50% { transform: translateY(8px); }
+}
+
+/* Spirit Cat Animations */
+@keyframes spirit-float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.9; }
+  25% { transform: translateY(-8px) translateX(3px); opacity: 0.7; }
+  50% { transform: translateY(-5px) translateX(-3px); opacity: 0.85; }
+  75% { transform: translateY(-10px) translateX(2px); opacity: 0.75; }
+}
+@keyframes spirit-fade {
+  0%, 100% { opacity: 0.9; filter: blur(0px); }
+  50% { opacity: 0.5; filter: blur(1px); }
+}
+@keyframes spirit-happy {
+  0%, 100% { transform: translateY(-5px) scale(1); opacity: 1; }
+  50% { transform: translateY(-15px) scale(1.1); opacity: 0.8; }
+}
+@keyframes spirit-sad {
+  0%, 100% { opacity: 0.4; transform: translateY(5px); }
+  50% { opacity: 0.3; transform: translateY(8px); }
+}
+@keyframes spirit-sleep {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.2; }
+}
+
+/* Cosmic Whale Animations */
+@keyframes whale-swim {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-5px) rotate(3deg); }
+  50% { transform: translateY(0) rotate(0deg); }
+  75% { transform: translateY(-5px) rotate(-3deg); }
+}
+@keyframes whale-stars {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(0.8); }
+}
+@keyframes whale-stars-alt {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1); }
+}
+@keyframes whale-happy {
+  0%, 100% { transform: translateY(-5px) scale(1); }
+  50% { transform: translateY(-15px) scale(1.05); }
+}
+@keyframes whale-sad {
+  0%, 100% { transform: translateY(5px) rotate(-5deg); }
+  50% { transform: translateY(8px) rotate(-3deg); }
+}
+
+/* Reindeer Animations */
+@keyframes reindeer-idle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes reindeer-nose-glow {
+  0%, 100% { filter: drop-shadow(0 0 8px #ff0000) drop-shadow(0 0 15px #ff4444); }
+  50% { filter: drop-shadow(0 0 15px #ff0000) drop-shadow(0 0 25px #ff4444); }
+}
+@keyframes reindeer-antlers {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes reindeer-happy {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  25% { transform: translateY(-10px) rotate(2deg); }
+  50% { transform: translateY(-5px) rotate(-2deg); }
+  75% { transform: translateY(-8px) rotate(2deg); }
+}
+@keyframes reindeer-sad {
+  0%, 100% { transform: translateY(3px); }
+  50% { transform: translateY(5px); }
+}
+
+/* Sleep Z's */
+@keyframes sleep-z {
+  0% { opacity: 0; transform: translateY(0) translateX(0) scale(0.5); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-30px) translateX(15px) scale(1); }
+}
+
+/* Tears */
+@keyframes tear-drop {
+  0% { opacity: 0; transform: translateY(0); }
+  50% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(15px); }
+}
+
+/* Food particles */
+@keyframes food-particle {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-20px) scale(0); }
+}
+
+/* ========================================
+   BUTTON EFFECTS
+   ======================================== */
+
+/* 3D Press Effect */
+.btn-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all 0.15s ease;
+}
+
+.btn-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+.btn-3d::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    0 4px 0 rgba(0, 0, 0, 0.25),
+    0 6px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
+  pointer-events: none;
+}
+
+.btn-3d:active {
+  transform: translateY(4px) scale(0.98);
+}
+
+.btn-3d:active::after {
+  box-shadow:
+    0 0px 0 rgba(0, 0, 0, 0.25),
+    0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Ripple Animation */
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  animation: ripple-effect 0.6s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes ripple-effect {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Icon Bounce */
+@keyframes icon-bounce {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.3) rotate(-10deg); }
+  50% { transform: scale(0.9); }
+  75% { transform: scale(1.15) rotate(5deg); }
+}
+
+.icon-bounce {
+  animation: icon-bounce 0.5s ease-out;
+}
+
+/* Glow Effect */
+.btn-glow {
+  position: relative;
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg,
+    var(--glow-color, rgba(255, 255, 255, 0.3)),
+    transparent,
+    var(--glow-color, rgba(255, 255, 255, 0.3))
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+}
+
+.btn-glow:hover::before {
+  opacity: 1;
+}
+
+/* Button Press */
+.btn-press:active {
+  transform: scale(0.92) !important;
+}
+
+/* ========================================
+   STAT BARS
+   ======================================== */
+
+/* Base stat colors with gradients */
+.stat-hunger {
+  background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
+}
+.stat-happiness {
+  background: linear-gradient(90deg, #ffd93d, #ffcd00);
+}
+.stat-energy {
+  background: linear-gradient(90deg, #6bcb77, #4ade80);
+}
+.stat-cleanliness {
+  background: linear-gradient(90deg, #4d96ff, #60a5fa);
+}
+
+/* Shimmer effect for stat bars */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.stat-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Critical pulse for low stats */
+@keyframes critical-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 rgba(255, 0, 0, 0);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+  }
+}
+
+.stat-critical {
+  animation: critical-pulse 0.8s ease-in-out infinite;
+}
+
+/* Icon animations based on stat level */
+@keyframes stat-icon-happy {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+@keyframes stat-icon-warning {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+
+@keyframes stat-icon-critical {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.8); opacity: 0.5; }
+}
+
+.stat-icon-happy {
+  animation: stat-icon-happy 1s ease-in-out infinite;
+}
+
+.stat-icon-warning {
+  animation: stat-icon-warning 0.5s ease-in-out infinite;
+}
+
+.stat-icon-critical {
+  animation: stat-icon-critical 0.4s ease-in-out infinite;
+}
+
+/* ========================================
+   GACHA ANIMATIONS
+   ======================================== */
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-10px) rotate(-5deg); }
+  75% { transform: translateX(10px) rotate(5deg); }
+}
+
+@keyframes reveal {
+  0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes egg-crack {
+  0% { transform: scale(1) rotate(0deg); }
+  20% { transform: scale(1.1) rotate(-5deg); }
+  40% { transform: scale(0.95) rotate(5deg); }
+  60% { transform: scale(1.2) rotate(-3deg); }
+  80% { transform: scale(1.3) rotate(3deg); filter: brightness(1.5); }
+  100% { transform: scale(2) rotate(0deg); opacity: 0; filter: brightness(2); }
+}
+
+@keyframes screen-shake {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-10px, -5px); }
+  20% { transform: translate(10px, 5px); }
+  30% { transform: translate(-8px, 3px); }
+  40% { transform: translate(8px, -3px); }
+  50% { transform: translate(-5px, 5px); }
+  60% { transform: translate(5px, -5px); }
+  70% { transform: translate(-3px, 2px); }
+  80% { transform: translate(3px, -2px); }
+  90% { transform: translate(-1px, 1px); }
+}
+
+@keyframes particle-burst {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx, 100px), var(--ty, -100px)) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.gacha-shake {
+  animation: shake 0.5s ease-in-out 3;
+}
+
+.gacha-reveal {
+  animation: reveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.egg-crack {
+  animation: egg-crack 0.8s ease-out forwards;
+}
+
+.screen-shake {
+  animation: screen-shake 0.5s ease-in-out;
+}
+
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  animation: confetti-fall 3s ease-out forwards;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: particle-burst 0.8s ease-out forwards;
+  pointer-events: none;
+}
+
+/* Rarity backgrounds */
+.rarity-bg-1 {
+  background: radial-gradient(circle at center, rgba(160, 160, 160, 0.2) 0%, transparent 70%);
+}
+.rarity-bg-2 {
+  background: radial-gradient(circle at center, rgba(74, 222, 128, 0.2) 0%, transparent 70%);
+}
+.rarity-bg-3 {
+  background: radial-gradient(circle at center, rgba(96, 165, 250, 0.3) 0%, transparent 70%);
+}
+.rarity-bg-4 {
+  background: radial-gradient(circle at center, rgba(192, 132, 252, 0.4) 0%, transparent 70%);
+}
+.rarity-bg-5 {
+  background:
+    radial-gradient(circle at center, rgba(251, 191, 36, 0.5) 0%, transparent 70%),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(255, 200, 50, 0.3) 0%, transparent 50%);
+}
+
+/* Light beam effect for legendary */
+@keyframes light-beam {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.legendary-beam {
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(251, 191, 36, 0.3) 10%,
+    transparent 20%,
+    rgba(255, 215, 0, 0.2) 30%,
+    transparent 40%,
+    rgba(251, 191, 36, 0.3) 50%,
+    transparent 60%,
+    rgba(255, 215, 0, 0.2) 70%,
+    transparent 80%,
+    rgba(251, 191, 36, 0.3) 90%,
+    transparent 100%
+  );
+  animation: light-beam 3s linear infinite;
+  pointer-events: none;
+}
+
+/* ========================================
+   MODAL ANIMATIONS
+   ======================================== */
+
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+}
+
+@keyframes modal-slide-up {
+  0% {
+    transform: translateY(100%) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes modal-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.modal-enter {
+  animation: modal-slide-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.modal-backdrop-enter {
+  animation: modal-fade-in 0.3s ease-out forwards;
+}
+
+/* ========================================
+   TOAST NOTIFICATIONS
+   ======================================== */
+
+@keyframes toast-slide-in {
+  0% {
+    transform: translateY(-100%) translateX(-50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) translateX(-50%);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-slide-out {
+  0% {
+    transform: translateY(0) translateX(-50%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%) translateX(-50%);
+    opacity: 0;
+  }
+}
+
+.toast-enter {
+  animation: toast-slide-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.toast-exit {
+  animation: toast-slide-out 0.2s ease-in forwards;
+}
+
+/* Toast glow effects */
+.toast-glow-coins {
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.5), 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.toast-glow-success {
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.5), 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.toast-glow-info {
+  box-shadow: 0 0 20px rgba(96, 165, 250, 0.5), 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   RARITY COLORS
+   ======================================== */
+
+.rarity-1 { color: #a0a0a0; }
+.rarity-2 { color: #4ade80; }
+.rarity-3 { color: #60a5fa; }
+.rarity-4 { color: #c084fc; }
+.rarity-5 {
+  color: #fbbf24;
+  text-shadow: 0 0 10px #fbbf24;
+  animation: legendary-glow 2s ease-in-out infinite;
+}
+
+@keyframes legendary-glow {
+  0%, 100% { text-shadow: 0 0 10px #fbbf24; }
+  50% { text-shadow: 0 0 20px #fbbf24, 0 0 40px #fbbf24; }
+}
+
+/* ========================================
+   KAWAII UTILITY CLASSES
+   ======================================== */
+
+/* Micro-animations */
+@keyframes kawaii-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes kawaii-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-2deg); }
+  75% { transform: rotate(2deg); }
+}
+
+@keyframes kawaii-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.animate-kawaii-bounce {
+  animation: kawaii-bounce 0.6s ease-in-out;
+}
+
+.animate-kawaii-wiggle {
+  animation: kawaii-wiggle 0.4s ease-in-out;
+}
+
+.animate-kawaii-pulse {
+  animation: kawaii-pulse 0.5s ease-in-out infinite;
+}
+
+/* Hover micro-animations */
+.hover-kawaii-bounce:hover {
+  animation: kawaii-bounce 0.4s ease-in-out;
+}
+
+.hover-kawaii-wiggle:hover {
+  animation: kawaii-wiggle 0.3s ease-in-out;
+}
+
+/* Active press effect (kawaii style) */
+.active-kawaii-press:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
+}
+
+/* Soft glow effect */
+.glow-kawaii-pink {
+  box-shadow: 0 0 15px rgba(255, 182, 193, 0.4);
+}
+
+.glow-kawaii-purple {
+  box-shadow: 0 0 15px rgba(221, 160, 221, 0.4);
+}
+
+/* Rounded kawaii corners utility */
+.rounded-kawaii-sm {
+  border-radius: 0.75rem;
+}
+
+.rounded-kawaii-md {
+  border-radius: 1rem;
+}
+
+.rounded-kawaii-lg {
+  border-radius: 1.5rem;
+}
+
+.rounded-kawaii-xl {
+  border-radius: 2rem;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* Hide scrollbar but keep functionality */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Scale hover effect */
+.hover-scale {
+  transition: transform 0.2s ease;
+}
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Gradient border */
+.gradient-border {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Floating animation */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse scale */
+@keyframes pulse-scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.animate-pulse-scale {
+  animation: pulse-scale 2s ease-in-out infinite;
+}
+
+/* Disabled state */
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(30%);
+}
+
+/* ========================================
+   MINI-GAME ANIMATIONS
+   ======================================== */
+
+/* Catch Game - Treat catch animation */
+@keyframes catch-pop {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.catch-animation {
+  animation: catch-pop 0.3s ease-out forwards;
+}
+
+/* Sparkle burst on catch */
+@keyframes sparkle-fly-1 {
+  0% {
+    transform: translate(-8px, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-30px, -40px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes sparkle-fly-2 {
+  0% {
+    transform: translate(8px, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(30px, -40px) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes sparkle-fly-3 {
+  0% {
+    transform: translate(0, -8px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, -50px) scale(0);
+    opacity: 0;
+  }
+}
+
+.sparkle-fly-1 {
+  animation: sparkle-fly-1 0.5s ease-out forwards;
+}
+
+.sparkle-fly-2 {
+  animation: sparkle-fly-2 0.5s ease-out forwards;
+}
+
+.sparkle-fly-3 {
+  animation: sparkle-fly-3 0.5s ease-out forwards;
+}
+
+.sparkle-burst {
+  animation: catch-pop 0.5s ease-out forwards;
+  color: #ffd700;
+  font-weight: bold;
+  text-shadow: 0 0 10px #ffd700;
+}
+
+/* Game over reveal */
+@keyframes game-over-reveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.game-over-reveal {
+  animation: game-over-reveal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Memory Match - Card flip */
+@keyframes card-flip-in {
+  0% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(0deg);
+  }
+}
+
+@keyframes card-flip-out {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(180deg);
+  }
+}
+
+.card-flip-front {
+  animation: card-flip-in 0.3s ease-out forwards;
+  backface-visibility: hidden;
+}
+
+.card-back {
+  backface-visibility: hidden;
+}
+
+/* Matched card glow */
+@keyframes matched-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(74, 222, 128, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.8);
+  }
+}
+
+.matched-card {
+  animation: matched-pulse 1s ease-in-out 2;
+}
+
+/* Victory celebration particles */
+@keyframes celebration-particle {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(
+      calc(cos(var(--angle)) * 100px),
+      calc(sin(var(--angle)) * 100px)
+    ) scale(0);
+    opacity: 0;
+  }
+}
+
+.celebration-particle {
+  animation: celebration-particle 0.8s ease-out forwards;
+}
+
+.celebration-burst {
+  position: relative;
+}
+
+/* Combo badge pulse */
+@keyframes combo-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  }
+}
+
+.combo-badge {
+  animation: combo-pulse 0.5s ease-in-out infinite;
+}
+
+/* Touch-friendly large tap targets */
+@media (pointer: coarse) {
+  .touch-manipulation {
+    touch-action: manipulation;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Treat falling animation enhancement */
+@keyframes treat-wobble {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+.treat-wobble {
+  animation: treat-wobble 0.5s ease-in-out infinite;
+}
+
+/* ========================================
+   EVOLUTION & LEVEL UP ANIMATIONS
+   ======================================== */
+
+/* Evolution glow effect */
+@keyframes evolution-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.5)) brightness(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 30px rgba(168, 85, 247, 0.8)) brightness(1.3);
+  }
+}
+
+.evolution-glow {
+  animation: evolution-glow 1s ease-in-out infinite;
+}
+
+/* Evolution transformation spiral */
+@keyframes evolution-spiral {
+  0% {
+    transform: scale(1) rotate(0deg);
+    filter: brightness(1);
+  }
+  25% {
+    transform: scale(1.2) rotate(90deg);
+    filter: brightness(1.5);
+  }
+  50% {
+    transform: scale(0.5) rotate(180deg);
+    filter: brightness(2);
+  }
+  75% {
+    transform: scale(1.3) rotate(270deg);
+    filter: brightness(1.5);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    filter: brightness(1);
+  }
+}
+
+.evolution-transform {
+  animation: evolution-spiral 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Level up celebration */
+@keyframes level-up-pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.level-up-pop {
+  animation: level-up-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Level number flash */
+@keyframes level-flash {
+  0%, 100% {
+    color: #fbbf24;
+    text-shadow: 0 0 5px rgba(251, 191, 36, 0.5);
+  }
+  50% {
+    color: #fff;
+    text-shadow: 0 0 20px rgba(251, 191, 36, 1), 0 0 40px rgba(251, 191, 36, 0.8);
+  }
+}
+
+.level-flash {
+  animation: level-flash 0.5s ease-in-out 3;
+}
+
+/* XP bar fill animation */
+@keyframes xp-fill {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: var(--target-width, 100%);
+  }
+}
+
+.xp-animate {
+  animation: xp-fill 0.5s ease-out forwards;
+}
+
+/* Milestone badge bounce */
+@keyframes milestone-bounce {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(5deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(-3deg);
+  }
+}
+
+.milestone-badge {
+  animation: milestone-bounce 0.8s ease-in-out 2;
+}
+
+/* Achievement unlock burst */
+@keyframes achievement-unlock {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2) rotate(10deg);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.9) rotate(-5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.achievement-unlock {
+  animation: achievement-unlock 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Streak fire animation */
+@keyframes streak-fire {
+  0%, 100% {
+    transform: scaleY(1);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    transform: scaleY(1.2);
+    filter: hue-rotate(20deg);
+  }
+}
+
+.streak-fire {
+  animation: streak-fire 0.5s ease-in-out infinite;
+}
+
+/* Evolution stage indicator */
+.evolution-stage {
+  position: relative;
+}
+
+.evolution-stage::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 9999px;
+  background: linear-gradient(45deg, #a855f7, #ec4899, #a855f7);
+  background-size: 200% 200%;
+  animation: gradient-rotate 3s linear infinite;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.evolution-stage.ready::after {
+  opacity: 1;
+}
+
+@keyframes gradient-rotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY: REDUCED MOTION SUPPORT
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

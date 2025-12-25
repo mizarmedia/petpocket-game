@@ -1,0 +1,6 @@
+role: coordinator
+project: pet-play
+status: starting
+message: Session initialized
+timestamp: 2025-12-25 15:35:18
+epoch: 1766702118
