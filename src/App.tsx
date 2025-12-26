@@ -16,6 +16,27 @@ import DailyRewardModal from './components/DailyRewardModal'
 import { ToastProvider, useToast } from './components/Toast'
 import { playSound, haptic } from './utils/feedback'
 
+// SVG Icons for main app
+const EggIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+    <ellipse cx="12" cy="13" rx="8" ry="10" fill="url(#eggGradient)" stroke="#fde68a" strokeWidth="1"/>
+    <ellipse cx="12" cy="10" rx="4" ry="3" fill="white" opacity="0.3"/>
+    <defs>
+      <linearGradient id="eggGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#fef3c7"/>
+        <stop offset="100%" stopColor="#fcd34d"/>
+      </linearGradient>
+    </defs>
+  </svg>
+)
+
+const SmallCoinIcon = () => (
+  <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
+    <circle cx="8" cy="8" r="7" fill="#fcd34d" stroke="#f59e0b" strokeWidth="1"/>
+    <text x="8" y="11" textAnchor="middle" fontSize="8" fontWeight="bold" fill="#92400e">$</text>
+  </svg>
+)
+
 function AppContent() {
   const { pets, activePetId, updatePetStats, lastStreakClaim, totalCareActions, coins, evolutionHistory, miniGameWins, _hasHydrated } = useGameStore()
   const initProgress = useAchievementStore((state) => state.initProgress)
@@ -214,9 +235,11 @@ function AppContent() {
 
           {/* Content */}
           <span className="relative z-10 flex items-center justify-center gap-3">
-            <span className="text-2xl">🥚</span>
+            <EggIcon />
             <span>HATCH NEW PET</span>
-            <span className="text-sm opacity-80 bg-black/20 px-2 py-0.5 rounded-full">100 💰</span>
+            <span className="text-sm opacity-80 bg-black/20 px-2 py-0.5 rounded-full flex items-center gap-1">
+              100 <SmallCoinIcon />
+            </span>
           </span>
         </button>
       </div>
