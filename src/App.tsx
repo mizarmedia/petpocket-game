@@ -74,7 +74,8 @@ function AppContent() {
     if (hasInitializedAchievementsRef.current) return
     hasInitializedAchievementsRef.current = true
     initProgress()
-  }, [initProgress])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Empty deps - initProgress is stable but selector creates new ref
 
   // Track achievements based on game state
   useEffect(() => {
@@ -102,31 +103,36 @@ function AppContent() {
     // Master - check if any pet is max level
     const hasMaxLevel = pets.some(p => p.level >= 50)
     if (hasMaxLevel) updateProgress('master', 1)
-  }, [pets, updateProgress])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pets]) // Removed updateProgress - stable but selector creates new ref
 
   // Track care actions
   useEffect(() => {
     updateProgress('caring_soul', totalCareActions)
-  }, [totalCareActions, updateProgress])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalCareActions]) // Removed updateProgress - stable but selector creates new ref
 
   // Track coins for wealthy achievement
   useEffect(() => {
     if (coins >= 5000) {
       updateProgress('wealthy', coins)
     }
-  }, [coins, updateProgress])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coins]) // Removed updateProgress - stable but selector creates new ref
 
   // Track evolutions
   useEffect(() => {
     if (evolutionHistory.length > 0) {
       updateProgress('evolver', evolutionHistory.length)
     }
-  }, [evolutionHistory, updateProgress])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [evolutionHistory]) // Removed updateProgress - stable but selector creates new ref
 
   // Track mini-game wins
   useEffect(() => {
     updateProgress('gamer', miniGameWins)
-  }, [miniGameWins, updateProgress])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [miniGameWins]) // Removed updateProgress - stable but selector creates new ref
 
   // LOW-002 fix: Wait for hydration before showing starter picker
   if (!_hasHydrated) {

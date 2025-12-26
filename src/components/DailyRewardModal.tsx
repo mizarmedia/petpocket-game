@@ -138,19 +138,19 @@ export default function DailyRewardModal({ onClose }: DailyRewardModalProps) {
         {/* Milestone progress */}
         <div className="mb-6">
           <p className="text-xs text-gray-400 text-center mb-2">Next milestone:</p>
-          <div className="flex justify-center gap-2">
+          <div className="flex flex-row justify-center items-start gap-4">
             {loginStreak < 7 && (
-              <div className="text-center px-3 py-2 rounded-lg bg-blue-500/20">
-                <p className="text-xl">🥚</p>
-                <p className="text-xs text-blue-300">Day 7</p>
-                <p className="text-xs text-gray-400">{7 - loginStreak} days</p>
+              <div className="text-center px-4 py-3 rounded-xl bg-blue-500/20 min-w-[80px]">
+                <p className="text-2xl mb-1">🥚</p>
+                <p className="text-sm font-medium text-blue-300">Day 7</p>
+                <p className="text-xs text-gray-400 mt-1">{7 - loginStreak} days left</p>
               </div>
             )}
             {loginStreak < 30 && (
-              <div className="text-center px-3 py-2 rounded-lg bg-purple-500/20">
-                <p className="text-xl">🎁</p>
-                <p className="text-xs text-purple-300">Day 30</p>
-                <p className="text-xs text-gray-400">{30 - loginStreak} days</p>
+              <div className="text-center px-4 py-3 rounded-xl bg-purple-500/20 min-w-[80px]">
+                <p className="text-2xl mb-1">🎁</p>
+                <p className="text-sm font-medium text-purple-300">Day 30</p>
+                <p className="text-xs text-gray-400 mt-1">{30 - loginStreak} days left</p>
               </div>
             )}
           </div>
