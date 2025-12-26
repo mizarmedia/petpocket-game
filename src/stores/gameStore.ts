@@ -165,6 +165,7 @@ interface GameState {
   playWithPet: () => LevelUpResult | null;
   cleanPet: () => LevelUpResult | null;
   sleepPet: () => LevelUpResult | null;
+  petPet: () => void;
   doGachaPull: () => PetSpecies | null;
   claimDailyStreak: () => StreakClaimResult | null;
   getActivePet: () => Pet | null;
@@ -411,6 +412,27 @@ export const useGameStore = create<GameState>()(
         return levelUpResult;
       },
 
+      petPet: () => {
+        const state = get();
+        const pet = state.pets.find(p => p.id === state.activePetId);
+        if (!pet) return;
+
+        set((state) => ({
+          pets: state.pets.map(p =>
+            p.id === state.activePetId
+              ? {
+                  ...p,
+                  stats: {
+                    ...p.stats,
+                    happiness: Math.min(100, p.stats.happiness + 2),
+                  },
+                  lastUpdated: Date.now(),
+                }
+              : p
+          ),
+        }));
+      },
+
       doGachaPull: () => {
         const state = get();
         if (!state.spendCoins(100)) return null;
@@ -624,28 +646,36 @@ export const useGameStore = create<GameState>()(
           safeLocalStorage.removeItem(name)
         },
       })),
-      onRehydrateStorage: () => (state, error) => {
-        if (error) {
-          console.error('Failed to load saved data:', error)
-          showStorageError(
-            new StorageError('Saved data could not be loaded', 'corrupted'),
-            'gameStore.rehydrate'
-          )
-        }
+      onRehydrateStorage: () => {
+        // LOW-002 fix: Mark store as hydrated IMMEDIATELY (before rehydration callback)
+        // Using setTimeout to ensure it runs after store is created
+        setTimeout(() => {
+          useGameStore.setState({ _hasHydrated: true })
+        }, 0)
 
-        // Warn user if localStorage is unavailable
-        if (!isStorageAvailable()) {
-          console.warn('localStorage is not available - progress will not be saved')
-          const event = new CustomEvent('storage-error', {
-            detail: 'Storage is disabled. Your progress will not be saved.'
-          })
-          window.dispatchEvent(event)
-        } else if (state) {
-          if (import.meta.env.DEV) console.log('Game data loaded successfully')
-        }
+        return (state, error) => {
+          if (error) {
+            console.error('Failed to load saved data:', error)
+            showStorageError(
+              new StorageError('Saved data could not be loaded', 'corrupted'),
+              'gameStore.rehydrate'
+            )
+          }
 
-        // LOW-002 fix: Mark store as hydrated
-        useGameStore.setState({ _hasHydrated: true })
+          // Warn user if localStorage is unavailable
+          if (!isStorageAvailable()) {
+            console.warn('localStorage is not available - progress will not be saved')
+            const event = new CustomEvent('storage-error', {
+              detail: 'Storage is disabled. Your progress will not be saved.'
+            })
+            window.dispatchEvent(event)
+          } else if (state) {
+            if (import.meta.env.DEV) console.log('Game data loaded successfully')
+          }
+
+          // CRITICAL FIX: Always mark as hydrated after rehydration completes
+          useGameStore.setState({ _hasHydrated: true })
+        }
       },
     }
   )
