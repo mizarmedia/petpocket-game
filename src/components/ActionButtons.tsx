@@ -4,7 +4,7 @@ import { playSound, haptic, type SoundType } from '../utils/feedback'
 import { useToast } from './Toast'
 
 interface ActionButtonProps {
-  icon: string
+  icon: React.ReactNode
   label: string
   onClick: () => void
   color: string
@@ -13,6 +13,31 @@ interface ActionButtonProps {
   disabled?: boolean
   ariaLabel?: string
 }
+
+// SVG Icons for action buttons
+const FeedIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+    <path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/>
+  </svg>
+)
+
+const PlayIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/>
+  </svg>
+)
+
+const SleepIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+    <path d="M9 2c-1.05 0-2.05.16-3 .46 4.06 1.27 7 5.06 7 9.54 0 4.48-2.94 8.27-7 9.54.95.3 1.95.46 3 .46 5.52 0 10-4.48 10-10S14.52 2 9 2z"/>
+  </svg>
+)
+
+const CleanIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28">
+    <path d="M9.5 2C5.36 2 2 5.36 2 9.5c0 .59.08 1.16.21 1.72l2.17-.64C4.13 10.1 4 9.61 4 9.5 4 6.47 6.47 4 9.5 4c2.3 0 4.27 1.41 5.1 3.41l1.84-.55C15.33 4.12 12.66 2 9.5 2zm8.5 7l-3.5 3.5 3.5 3.5 2-2-1.5-1.5 1.5-1.5-2-2zm-8 2.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM12 22c-1.1 0-2-.9-2-2 0-.55.22-1.05.59-1.41l4.83-4.83-1.42-1.42-4.83 4.83c-.36.37-.86.59-1.42.59-1.1 0-2-.9-2-2s.9-2 2-2c.56 0 1.06.23 1.42.59l4.83 4.83 1.42-1.42-4.83-4.83c-.36-.36-.59-.86-.59-1.42 0-1.1.9-2 2-2s2 .9 2 2c0 .56-.23 1.06-.59 1.42l-4.83 4.83 1.42 1.42 4.83-4.83c.36-.37.86-.59 1.42-.59 1.1 0 2 .9 2 2s-.9 2-2 2c-.56 0-1.06-.23-1.42-.59L12 15.17V20c0 1.1.9 2 2 2h-2z"/>
+  </svg>
+)
 
 interface Ripple {
   id: number
@@ -130,9 +155,9 @@ function ActionButton({ icon, label, onClick, color, glowColor, sound, disabled 
       ))}
 
       {/* Icon with bounce animation */}
-      <span className={`text-3xl mb-1 relative z-10 ${iconBounce ? 'icon-bounce' : ''}`}>
+      <div className={`mb-1 relative z-10 text-white ${iconBounce ? 'icon-bounce' : ''}`}>
         {icon}
-      </span>
+      </div>
 
       {/* Label */}
       <span className="text-xs font-semibold text-white/90 relative z-10
@@ -201,38 +226,38 @@ export default function ActionButtons({ onFeed, onPlay, onClean, onSleep }: Acti
   return (
     <div className="grid grid-cols-4 gap-3 px-2">
       <ActionButton
-        icon="🍖"
+        icon={<FeedIcon />}
         label="Feed"
         onClick={handleFeed}
-        color="from-red-500 to-orange-600"
-        glowColor="rgba(239, 68, 68, 0.5)"
+        color="from-rose-500 to-orange-500"
+        glowColor="rgba(244, 63, 94, 0.5)"
         sound="feed"
         ariaLabel="Feed your pet to increase hunger stat"
       />
       <ActionButton
-        icon="⚽"
+        icon={<PlayIcon />}
         label="Play"
         onClick={handlePlay}
-        color="from-yellow-500 to-amber-600"
-        glowColor="rgba(234, 179, 8, 0.5)"
+        color="from-amber-400 to-yellow-500"
+        glowColor="rgba(251, 191, 36, 0.5)"
         sound="play"
         ariaLabel="Play with your pet to increase happiness"
       />
       <ActionButton
-        icon="💤"
+        icon={<SleepIcon />}
         label="Sleep"
         onClick={handleSleep}
-        color="from-purple-500 to-indigo-600"
-        glowColor="rgba(168, 85, 247, 0.5)"
+        color="from-violet-500 to-purple-600"
+        glowColor="rgba(139, 92, 246, 0.5)"
         sound="sleep"
         ariaLabel="Put your pet to sleep to restore energy"
       />
       <ActionButton
-        icon="🧼"
+        icon={<CleanIcon />}
         label="Clean"
         onClick={handleClean}
-        color="from-blue-500 to-cyan-600"
-        glowColor="rgba(59, 130, 246, 0.5)"
+        color="from-cyan-400 to-blue-500"
+        glowColor="rgba(34, 211, 238, 0.5)"
         sound="clean"
         ariaLabel="Clean your pet to improve cleanliness"
       />
