@@ -23,12 +23,19 @@ const generateSnowflakes = (): Snowflake[] => {
   return flakes
 }
 
+// Sparkle SVG component
+const Sparkle = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" width="100%" height="100%">
+    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+  </svg>
+)
+
 export default function Snowflakes() {
   // Use lazy initial state - function only runs once on mount
   const [snowflakes] = useState<Snowflake[]>(generateSnowflakes)
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-50">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
       {snowflakes.map(flake => (
         <div
           key={flake.id}
@@ -37,10 +44,11 @@ export default function Snowflakes() {
             left: `${flake.left}%`,
             animationDelay: `${flake.delay}s`,
             animationDuration: `${flake.duration}s`,
-            fontSize: `${flake.size}rem`,
+            width: `${flake.size * 16}px`,
+            height: `${flake.size * 16}px`,
           }}
         >
-          ❄
+          <Sparkle />
         </div>
       ))}
     </div>

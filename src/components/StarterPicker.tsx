@@ -1,12 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useGameStore, PET_SPECIES } from '../stores/gameStore'
 import { playSound, haptic } from '../utils/feedback'
+import { Flame, Droplets, Leaf, Gift } from 'lucide-react'
+
+// Type icons as components
+const TYPE_ICONS: Record<string, React.ReactNode> = {
+  Fire: <Flame size={14} />,
+  Water: <Droplets size={14} />,
+  Nature: <Leaf size={14} />,
+  Holiday: <Gift size={14} />,
+}
 
 const STARTERS = [
-  { id: 'fox', name: 'Pyro Pup', type: 'Fire', typeIcon: '🔥', desc: 'Energetic and playful! Needs lots of attention.', gradient: 'from-red-500 to-orange-500' },
-  { id: 'blob', name: 'Aqua Blob', type: 'Water', typeIcon: '💧', desc: 'Calm and easy-going. Perfect for beginners!', gradient: 'from-blue-500 to-cyan-500' },
-  { id: 'chick', name: 'Leaf Sprite', type: 'Nature', typeIcon: '🌿', desc: 'Always hungry but super cheerful!', gradient: 'from-green-500 to-emerald-500' },
-  { id: 'reindeer', name: 'Rudolph Jr', type: 'Holiday', typeIcon: '🎄', desc: 'Special Christmas edition! Nose glows at night!', gradient: 'from-red-500 to-green-500' },
+  { id: 'fox', name: 'Pyro Pup', type: 'Fire', desc: 'Energetic and playful! Needs lots of attention.', gradient: 'from-rose-400 to-orange-400', color: '#f43f5e' },
+  { id: 'blob', name: 'Aqua Blob', type: 'Water', desc: 'Calm and easy-going. Perfect for beginners!', gradient: 'from-sky-400 to-cyan-400', color: '#0ea5e9' },
+  { id: 'chick', name: 'Leaf Sprite', type: 'Nature', desc: 'Always hungry but super cheerful!', gradient: 'from-lime-400 to-emerald-400', color: '#84cc16' },
+  { id: 'reindeer', name: 'Rudolph Jr', type: 'Holiday', desc: 'Special Christmas edition! Nose glows at night!', gradient: 'from-rose-400 to-emerald-400', color: '#ec4899' },
 ]
 
 export default function StarterPicker() {
@@ -55,13 +64,12 @@ export default function StarterPicker() {
       {/* Title */}
       <div className={`text-center mb-10 transition-all duration-700 ${showContent ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
         <h1 className="text-5xl font-bold mb-3">
-          <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400
-                          bg-clip-text text-transparent
-                          drop-shadow-[0_0_30px_rgba(236,72,153,0.3)]">
+          <span className="bg-gradient-to-r from-pink-500 via-purple-500 to-violet-500
+                          bg-clip-text text-transparent">
             PetPocket
           </span>
         </h1>
-        <p className="text-gray-400 text-lg">Choose your first companion!</p>
+        <p className="text-purple-400 text-lg font-medium">Choose your first companion!</p>
       </div>
 
       {/* Starter grid */}
@@ -102,12 +110,12 @@ export default function StarterPicker() {
               )}
 
               {/* Type badge */}
-              <div className={`absolute top-2 right-2 px-2 py-0.5 rounded-full text-xs font-medium
+              <div className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1
                              ${isSelected
                                ? `bg-gradient-to-r ${starter.gradient} text-white`
-                               : 'bg-white/10 text-gray-400'
+                               : 'bg-white/50 text-gray-600'
                              }`}>
-                {starter.typeIcon}
+                {TYPE_ICONS[starter.type]}
               </div>
 
               {/* Pet emoji */}
@@ -126,12 +134,12 @@ export default function StarterPicker() {
               </div>
 
               {/* Name and type */}
-              <span className="relative z-10 font-bold text-white text-base mb-0.5">
+              <span className={`relative z-10 font-bold text-base mb-0.5 ${isSelected ? 'text-white' : 'text-gray-700'}`}>
                 {starter.name}
               </span>
-              <span className={`relative z-10 text-xs font-medium
-                              ${isSelected ? 'text-white/80' : 'text-gray-400'}`}>
-                {starter.typeIcon} {starter.type}
+              <span className={`relative z-10 text-xs font-medium flex items-center gap-1
+                              ${isSelected ? 'text-white/80' : 'text-gray-500'}`}>
+                {TYPE_ICONS[starter.type]} {starter.type}
               </span>
 
               {/* Description */}
@@ -187,7 +195,7 @@ export default function StarterPicker() {
       </div>
 
       {/* Footer message */}
-      <p className={`mt-10 text-center text-sm text-gray-500 max-w-xs transition-all duration-700 delay-500 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
+      <p className={`mt-10 text-center text-sm text-purple-400/70 max-w-xs transition-all duration-700 delay-500 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
         Take good care of your new friend and they'll bring you joy!
       </p>
     </div>
