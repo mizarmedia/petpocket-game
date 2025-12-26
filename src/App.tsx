@@ -18,7 +18,8 @@ import { playSound, haptic } from './utils/feedback'
 
 function AppContent() {
   const { pets, activePetId, updatePetStats, lastStreakClaim, totalCareActions, coins, evolutionHistory, miniGameWins, _hasHydrated } = useGameStore()
-  const { initProgress, updateProgress } = useAchievementStore()
+  const initProgress = useAchievementStore((state) => state.initProgress)
+  const updateProgress = useAchievementStore((state) => state.updateProgress)
   const [showGacha, setShowGacha] = useState(false)
   const [showCollection, setShowCollection] = useState(false)
   const [showGames, setShowGames] = useState(false)
