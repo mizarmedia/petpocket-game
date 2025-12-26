@@ -12,20 +12,33 @@ import Snowflakes from './components/Snowflakes'
 import GamesMenu from './components/games/GamesMenu'
 import EvolutionModal from './components/EvolutionModal'
 import AchievementsModal from './components/AchievementsModal'
+import DailyRewardModal from './components/DailyRewardModal'
 import { ToastProvider, useToast } from './components/Toast'
 import { playSound, haptic } from './utils/feedback'
 
 function AppContent() {
-  const { pets, activePetId, updatePetStats, claimDailyStreak, totalCareActions, coins, evolutionHistory, miniGameWins, _hasHydrated } = useGameStore()
+  const { pets, activePetId, updatePetStats, lastStreakClaim, totalCareActions, coins, evolutionHistory, miniGameWins, _hasHydrated } = useGameStore()
   const { initProgress, updateProgress } = useAchievementStore()
   const [showGacha, setShowGacha] = useState(false)
   const [showCollection, setShowCollection] = useState(false)
   const [showGames, setShowGames] = useState(false)
   const [showEvolution, setShowEvolution] = useState(false)
   const [showAchievements, setShowAchievements] = useState(false)
-  const hasClaimedBonusRef = useRef(false)
+  const [showDailyReward, setShowDailyReward] = useState(false)
+  const hasCheckedDailyBonusRef = useRef(false)
   const hasInitializedAchievementsRef = useRef(false)
-  const { showCoins, showSuccess } = useToast()
+  useToast() // Keep hook active for toast context
+
+  // CRITICAL FIX: Failsafe for _hasHydrated in case onRehydrateStorage doesn't fire
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (!useGameStore.getState()._hasHydrated) {
+        console.warn('Hydration timeout - forcing _hasHydrated to true')
+        useGameStore.setState({ _hasHydrated: true })
+      }
+    }, 100) // 100ms failsafe
+    return () => clearTimeout(timeout)
+  }, [])
 
   // Update stats on mount and periodically
   useEffect(() => {
@@ -34,24 +47,26 @@ function AppContent() {
     return () => clearInterval(interval)
   }, [updatePetStats])
 
-  // Claim daily bonus on first load - using ref to prevent double-claim in StrictMode
+  // Check if daily reward is available on first load
   useEffect(() => {
-    if (hasClaimedBonusRef.current) return
-    hasClaimedBonusRef.current = true
+    if (hasCheckedDailyBonusRef.current) return
+    if (!_hasHydrated) return
+    hasCheckedDailyBonusRef.current = true
 
-    const result = claimDailyStreak()
-    if (result && result.coins > 0) {
-      // Show toast for daily bonus
+    // Check if user can claim daily reward (hasn't claimed today)
+    const oneDayMs = 24 * 60 * 60 * 1000
+    const now = Date.now()
+    const canClaim = !lastStreakClaim || (now - lastStreakClaim >= oneDayMs)
+
+    if (canClaim && pets.length > 0) {
+      // Show daily reward modal after a short delay
       setTimeout(() => {
-        showSuccess(`Daily streak! Day ${result.streakDay}`)
-        setTimeout(() => {
-          showCoins(result.coins)
-        }, 1500)
-      }, 500)
-      // Update streak achievement
-      updateProgress('dedicated', result.streakDay)
+        setShowDailyReward(true)
+        playSound('tap')
+        haptic('light')
+      }, 800)
     }
-  }, [claimDailyStreak, updateProgress, showCoins, showSuccess])
+  }, [lastStreakClaim, pets.length, _hasHydrated])
 
   // Initialize achievements and track progress
   useEffect(() => {
@@ -215,6 +230,9 @@ function AppContent() {
       )}
       {showAchievements && (
         <AchievementsModal onClose={() => setShowAchievements(false)} />
+      )}
+      {showDailyReward && (
+        <DailyRewardModal onClose={() => setShowDailyReward(false)} />
       )}
     </div>
   )

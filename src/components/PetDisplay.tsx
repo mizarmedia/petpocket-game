@@ -1,8 +1,9 @@
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { getXpForLevel, MAX_LEVEL, useGameStore } from '../stores/gameStore'
 import type { Pet, PetSpecies, EvolutionStage } from '../stores/gameStore'
 import PetSprite, { getPetMood, type PetMood } from './pets/PetSprite'
 import ParallaxStage from './ParallaxStage'
+import { haptic } from '../utils/feedback'
 
 interface PetDisplayProps {
   pet: Pet
@@ -17,6 +18,12 @@ interface PetDisplayProps {
 // Map species IDs that have custom sprites
 const SPRITE_SPECIES = ['blob', 'fox', 'dragon', 'spirit', 'cosmic', 'reindeer']
 
+interface HeartParticle {
+  id: number
+  x: number
+  y: number
+}
+
 export default function PetDisplay({
   pet,
   species,
@@ -27,9 +34,25 @@ export default function PetDisplay({
   onEvolutionClick
 }: PetDisplayProps) {
   const { canEvolve } = useGameStore()
+  const setPetHappiness = useGameStore((state) => (petId: string, delta: number) => {
+    const targetPet = state.pets.find(p => p.id === petId)
+    if (!targetPet) return
+
+    const updatedPet: typeof targetPet = {
+      ...targetPet,
+      stats: { ...targetPet.stats, happiness: Math.min(100, targetPet.stats.happiness + delta) },
+      lastUpdated: Date.now(),
+    }
+
+    state.pets = state.pets.map(p => p.id === petId ? updatedPet : p)
+  })
   const [isAnimating, setIsAnimating] = useState(false)
   const [actionMood, setActionMood] = useState<PetMood | null>(null)
+  const [heartParticles, setHeartParticles] = useState<HeartParticle[]>([])
+  const [petCooldown, setPetCooldown] = useState(false)
+  const [isPetting, setIsPetting] = useState(false)
   const prevStatsRef = useRef(pet.stats)
+  const heartIdRef = useRef(0)
 
   // Determine base emotion based on stats - using useMemo instead of useEffect+setState
   const baseEmotion = useMemo(() => {
@@ -146,6 +169,48 @@ export default function PetDisplay({
     }
   }
 
+  // FEAT-002: Pet tap interaction handler
+  const handlePetTap = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+    if (petCooldown) return
+
+    // Haptic feedback
+    haptic('light')
+
+    // Create heart particles
+    const rect = event.currentTarget.getBoundingClientRect()
+    const x = ((event.clientX - rect.left) / rect.width) * 100
+    const y = ((event.clientY - rect.top) / rect.height) * 100
+
+    const newHearts: HeartParticle[] = []
+    for (let i = 0; i < 5; i++) {
+      newHearts.push({
+        id: heartIdRef.current++,
+        x: x + (Math.random() - 0.5) * 20,
+        y: y + (Math.random() - 0.5) * 20,
+      })
+    }
+
+    setHeartParticles(prev => [...prev, ...newHearts])
+    setTimeout(() => {
+      setHeartParticles(prev => prev.filter(h => !newHearts.find(nh => nh.id === h.id)))
+    }, 1000)
+
+    // Trigger happy animation
+    setIsPetting(true)
+    setActionMood('happy')
+    setTimeout(() => {
+      setIsPetting(false)
+      setActionMood(null)
+    }, 800)
+
+    // Small happiness boost (+2)
+    setPetHappiness(pet.id, 2)
+
+    // 30s cooldown
+    setPetCooldown(true)
+    setTimeout(() => setPetCooldown(false), 30000)
+  }, [petCooldown, pet.id, setPetHappiness])
+
   const isThriving = Object.values(pet.stats).every(s => s > 80)
   const hasCustomSprite = SPRITE_SPECIES.includes(species.id)
   const canEvolveNow = canEvolve(pet.id)
@@ -234,8 +299,11 @@ export default function PetDisplay({
       {/* Pet container with parallax stage */}
       <ParallaxStage petMood={effectiveMood} className="w-full h-64 rounded-2xl mb-4">
         <div
-          className={`relative w-48 h-48 flex items-center justify-center
-                      ${isAnimating && !hasCustomSprite ? 'pet-happy' : hasCustomSprite ? '' : 'pet-bounce'}`}
+          onClick={handlePetTap}
+          className={`relative w-48 h-48 flex items-center justify-center cursor-pointer
+                      ${isPetting ? 'pet-happy' : ''}
+                      ${isAnimating && !hasCustomSprite ? 'pet-happy' : hasCustomSprite ? '' : 'pet-bounce'}
+                      ${petCooldown ? 'opacity-90' : 'hover:scale-105 transition-transform'}`}
           style={{ color: species.color }}
         >
         {/* Rarity-based visual effects */}
@@ -331,6 +399,23 @@ export default function PetDisplay({
               nom nom
             </div>
           )}
+
+          {/* FEAT-002: Heart particles on tap */}
+          {heartParticles.map(heart => (
+            <div
+              key={heart.id}
+              className="absolute pointer-events-none text-2xl animate-bounce"
+              style={{
+                left: `${heart.x}%`,
+                top: `${heart.y}%`,
+                animation: 'float 1s ease-out forwards',
+                color: '#FF69B4',
+                textShadow: '0 0 10px rgba(255,105,180,0.8)',
+              }}
+            >
+              ♥
+            </div>
+          ))}
         </div>
       </ParallaxStage>
 
