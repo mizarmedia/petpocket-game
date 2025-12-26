@@ -34,18 +34,6 @@ export default function PetDisplay({
   onEvolutionClick
 }: PetDisplayProps) {
   const { canEvolve } = useGameStore()
-  const setPetHappiness = useGameStore((state) => (petId: string, delta: number) => {
-    const targetPet = state.pets.find(p => p.id === petId)
-    if (!targetPet) return
-
-    const updatedPet: typeof targetPet = {
-      ...targetPet,
-      stats: { ...targetPet.stats, happiness: Math.min(100, targetPet.stats.happiness + delta) },
-      lastUpdated: Date.now(),
-    }
-
-    state.pets = state.pets.map(p => p.id === petId ? updatedPet : p)
-  })
   const [isAnimating, setIsAnimating] = useState(false)
   const [actionMood, setActionMood] = useState<PetMood | null>(null)
   const [heartParticles, setHeartParticles] = useState<HeartParticle[]>([])
@@ -203,13 +191,19 @@ export default function PetDisplay({
       setActionMood(null)
     }, 800)
 
-    // Small happiness boost (+2)
-    setPetHappiness(pet.id, 2)
+    // Small happiness boost (+2) - directly update via Zustand
+    useGameStore.setState((state) => ({
+      pets: state.pets.map(p =>
+        p.id === pet.id
+          ? { ...p, stats: { ...p.stats, happiness: Math.min(100, p.stats.happiness + 2) }, lastUpdated: Date.now() }
+          : p
+      )
+    }))
 
     // 30s cooldown
     setPetCooldown(true)
     setTimeout(() => setPetCooldown(false), 30000)
-  }, [petCooldown, pet.id, setPetHappiness])
+  }, [petCooldown, pet.id])
 
   const isThriving = Object.values(pet.stats).every(s => s > 80)
   const hasCustomSprite = SPRITE_SPECIES.includes(species.id)
