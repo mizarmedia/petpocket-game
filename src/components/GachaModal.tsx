@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import type { PetSpecies } from '../stores/gameStore'
 import { playSound, haptic, type SoundType } from '../utils/feedback'
+import { EggIcon, CoinIcon, SparkleIcon, RarityStars } from './ui/Icons'
+import PetSprite from './pets/PetSprite'
 
 interface GachaModalProps {
   onClose: () => void
@@ -460,7 +462,7 @@ export default function GachaModal({ onClose }: GachaModalProps) {
           {/* Initial state */}
           {phase === 'idle' && (
             <div className="text-center animate-float">
-              <span className="text-7xl drop-shadow-lg">🥚</span>
+              <EggIcon size={96} className="drop-shadow-lg mx-auto" />
               <p className="text-gray-400 mt-3 text-sm">Tap to hatch!</p>
             </div>
           )}
@@ -468,14 +470,14 @@ export default function GachaModal({ onClose }: GachaModalProps) {
           {/* Shaking state */}
           {phase === 'shaking' && (
             <div className="gacha-shake">
-              <span className="text-7xl drop-shadow-lg">🥚</span>
+              <EggIcon size={96} className="drop-shadow-lg" />
             </div>
           )}
 
           {/* Egg cracking state */}
           {phase === 'cracking' && (
             <div className="egg-crack">
-              <span className="text-7xl">🥚</span>
+              <EggIcon size={96} />
             </div>
           )}
 
@@ -485,19 +487,20 @@ export default function GachaModal({ onClose }: GachaModalProps) {
               <div className={`animate-pulse ${
                 result.rarity >= 5 ? 'scale-110' : result.rarity >= 4 ? 'scale-105' : 'scale-100'
               }`}>
-                <span
-                  className="text-7xl drop-shadow-lg"
+                <div
                   style={{
                     filter: `brightness(0.5) drop-shadow(0 0 20px ${result.color})`
                   }}
                 >
-                  🥚
-                </span>
+                  <EggIcon size={96} className="mx-auto" />
+                </div>
               </div>
-              <p className="text-yellow-300 mt-3 text-sm font-bold animate-pulse">
-                {result.rarity >= 5 ? '✨ Something incredible... ✨' :
-                 result.rarity >= 4 ? '⭐ Something special! ⭐' :
-                 '✨ Something rare! ✨'}
+              <p className="text-yellow-300 mt-3 text-sm font-bold animate-pulse flex items-center justify-center gap-1">
+                <SparkleIcon size={14} className="text-yellow-300" />
+                {result.rarity >= 5 ? 'Something incredible...' :
+                 result.rarity >= 4 ? 'Something special!' :
+                 'Something rare!'}
+                <SparkleIcon size={14} className="text-yellow-300" />
               </p>
             </div>
           )}
@@ -505,8 +508,8 @@ export default function GachaModal({ onClose }: GachaModalProps) {
           {/* Flash phase - bright white/rainbow */}
           {phase === 'flash' && result && (
             <div className="text-center">
-              <div className="text-8xl animate-ping" style={{ animationDuration: '0.3s' }}>
-                {result.rarity >= 5 ? '🌟' : '✨'}
+              <div className="animate-ping" style={{ animationDuration: '0.3s' }}>
+                <SparkleIcon size={96} className={result.rarity >= 5 ? 'text-yellow-300' : 'text-white'} />
               </div>
             </div>
           )}
@@ -514,8 +517,8 @@ export default function GachaModal({ onClose }: GachaModalProps) {
           {/* Result reveal */}
           {phase === 'reveal' && result && (
             <div className="gacha-reveal text-center z-10">
-              <span
-                className="text-8xl drop-shadow-lg block"
+              <div
+                className="mx-auto"
                 style={{
                   filter: result.rarity >= 5
                     ? `drop-shadow(0 0 30px ${result.color}) drop-shadow(0 0 60px ${result.color}) brightness(1.2)`
@@ -526,12 +529,13 @@ export default function GachaModal({ onClose }: GachaModalProps) {
                     : 'none'
                 }}
               >
-                {result.emoji}
-              </span>
-              <div className="mt-4">
+                <PetSprite speciesId={result.id} mood="happy" size={100} />
+              </div>
+              <div className="mt-3">
                 <h3 className="text-2xl font-bold text-white drop-shadow-lg">{result.name}</h3>
-                <p className={`text-base font-bold rarity-${result.rarity} mt-1`}>
-                  {'⭐'.repeat(result.rarity)} {getRarityLabel(result.rarity)}
+                <p className={`text-base font-bold rarity-${result.rarity} mt-1 flex items-center justify-center gap-1`}>
+                  <RarityStars count={result.rarity} size={16} />
+                  <span>{getRarityLabel(result.rarity)}</span>
                 </p>
               </div>
             </div>
@@ -540,14 +544,14 @@ export default function GachaModal({ onClose }: GachaModalProps) {
           {/* Sparkles for rare+ */}
           {phase === 'reveal' && result && result.rarity >= 3 && (
             <>
-              <span className="absolute top-4 left-4 text-2xl animate-ping">✨</span>
-              <span className="absolute top-8 right-8 text-xl animate-ping" style={{ animationDelay: '0.1s' }}>✨</span>
-              <span className="absolute bottom-8 left-8 text-xl animate-ping" style={{ animationDelay: '0.2s' }}>✨</span>
-              <span className="absolute bottom-4 right-4 text-2xl animate-ping" style={{ animationDelay: '0.3s' }}>✨</span>
+              <span className="absolute top-4 left-4 animate-ping text-yellow-300"><SparkleIcon size={24} /></span>
+              <span className="absolute top-8 right-8 animate-ping text-yellow-300" style={{ animationDelay: '0.1s' }}><SparkleIcon size={20} /></span>
+              <span className="absolute bottom-8 left-8 animate-ping text-yellow-300" style={{ animationDelay: '0.2s' }}><SparkleIcon size={20} /></span>
+              <span className="absolute bottom-4 right-4 animate-ping text-yellow-300" style={{ animationDelay: '0.3s' }}><SparkleIcon size={24} /></span>
               {result.rarity >= 5 && (
                 <>
-                  <span className="absolute top-1/2 left-4 text-lg animate-ping" style={{ animationDelay: '0.15s' }}>🌟</span>
-                  <span className="absolute top-1/2 right-4 text-lg animate-ping" style={{ animationDelay: '0.25s' }}>🌟</span>
+                  <span className="absolute top-1/2 left-4 animate-ping text-yellow-200" style={{ animationDelay: '0.15s' }}><SparkleIcon size={18} /></span>
+                  <span className="absolute top-1/2 right-4 animate-ping text-yellow-200" style={{ animationDelay: '0.25s' }}><SparkleIcon size={18} /></span>
                 </>
               )}
             </>
@@ -574,12 +578,17 @@ export default function GachaModal({ onClose }: GachaModalProps) {
               onClick={handleReset}
               className="w-full py-3.5 bg-gradient-to-r from-green-500 to-emerald-600
                         rounded-xl font-bold text-white shadow-lg btn-3d
-                        hover:scale-[1.02] transition-transform"
+                        hover:scale-[1.02] transition-transform flex items-center justify-center gap-2"
             >
-              {result && result.rarity >= 5 ? '🌟 LEGENDARY! Roll Again? 🌟' :
-               result && result.rarity >= 4 ? '✨ EPIC! Roll Again? ✨' :
-               result && result.rarity >= 3 ? '⭐ RARE! Roll Again? ⭐' :
-               'Awesome! Roll Again?'}
+              {result && result.rarity >= 5 ? (
+                <><SparkleIcon size={18} className="text-yellow-300" /> LEGENDARY! Roll Again? <SparkleIcon size={18} className="text-yellow-300" /></>
+              ) : result && result.rarity >= 4 ? (
+                <><SparkleIcon size={16} className="text-yellow-200" /> EPIC! Roll Again? <SparkleIcon size={16} className="text-yellow-200" /></>
+              ) : result && result.rarity >= 3 ? (
+                <><SparkleIcon size={14} /> RARE! Roll Again? <SparkleIcon size={14} /></>
+              ) : (
+                'Awesome! Roll Again?'
+              )}
             </button>
           ) : (
             <button
@@ -593,13 +602,15 @@ export default function GachaModal({ onClose }: GachaModalProps) {
             >
               {phase !== 'idle' ? (
                 <span className="flex items-center justify-center gap-2">
-                  <span className="animate-spin">🎰</span>
+                  <span className="animate-spin"><SparkleIcon size={20} /></span>
                   {phase === 'suspense' ? 'Building suspense...' : 'Hatching...'}
                 </span>
               ) : (
                 <span className="flex items-center justify-center gap-2">
-                  <span>🥚</span>
-                  Hatch! (100 💰)
+                  <EggIcon size={24} />
+                  <span>Hatch! (100</span>
+                  <CoinIcon size={18} />
+                  <span>)</span>
                 </span>
               )}
             </button>
@@ -620,7 +631,7 @@ export default function GachaModal({ onClose }: GachaModalProps) {
         {/* Current coins */}
         <div className="mt-4 pt-4 border-t border-white/10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 glass rounded-full">
-            <span className="text-lg">💰</span>
+            <CoinIcon size={24} />
             <span className="text-lg font-bold text-yellow-400 tabular-nums">{coins}</span>
           </div>
         </div>

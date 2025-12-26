@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useGameStore, PET_SPECIES } from '../stores/gameStore'
 import { playSound, haptic } from '../utils/feedback'
 import { Flame, Droplets, Leaf, Gift } from 'lucide-react'
+import PetSprite from './pets/PetSprite'
 
 // Type icons as components
 const TYPE_ICONS: Record<string, React.ReactNode> = {
@@ -49,7 +50,6 @@ export default function StarterPicker() {
     }, 500)
   }
 
-  const selectedSpecies = selectedId ? PET_SPECIES.find(s => s.id === selectedId) : null
   const selectedStarter = selectedId ? STARTERS.find(s => s.id === selectedId) : null
 
   return (
@@ -118,19 +118,22 @@ export default function StarterPicker() {
                 {TYPE_ICONS[starter.type]}
               </div>
 
-              {/* Pet emoji */}
+              {/* Pet sprite */}
               <div className="relative z-10 mb-3">
-                <span
-                  className={`text-6xl block transition-all duration-300
-                             ${isSelected ? 'animate-float' : ''}`}
+                <div
+                  className={`transition-all duration-300 ${isSelected ? 'animate-float' : ''}`}
                   style={{
                     filter: isSelected
-                      ? `drop-shadow(0 0 20px ${species.color}) drop-shadow(0 0 40px ${species.color})`
-                      : 'none'
+                      ? `drop-shadow(0 0 15px ${species.color}) drop-shadow(0 0 30px ${species.color})`
+                      : 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))'
                   }}
                 >
-                  {species.emoji}
-                </span>
+                  <PetSprite
+                    speciesId={starter.id}
+                    mood={isSelected ? 'happy' : 'idle'}
+                    size={72}
+                  />
+                </div>
               </div>
 
               {/* Name and type */}
@@ -172,12 +175,18 @@ export default function StarterPicker() {
           <span className="relative z-10 flex items-center justify-center gap-2">
             {confirming ? (
               <>
-                <span className="animate-spin">✨</span>
+                <span className="animate-spin inline-block w-5 h-5">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                  </svg>
+                </span>
                 <span>Hatching...</span>
               </>
             ) : selectedId ? (
               <>
-                <span className="text-xl">{selectedSpecies?.emoji}</span>
+                <span className="inline-block w-6 h-6">
+                  <PetSprite speciesId={selectedId} mood="happy" size={24} />
+                </span>
                 <span>Begin Adventure!</span>
               </>
             ) : (

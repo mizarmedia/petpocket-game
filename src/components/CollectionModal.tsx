@@ -1,6 +1,8 @@
 import { useGameStore, PET_SPECIES } from '../stores/gameStore'
 import { playSound, haptic } from '../utils/feedback'
 import Modal from './Modal'
+import { EggIcon, RarityStars, QuestionIcon } from './ui/Icons'
+import PetSprite, { getPetMood } from './pets/PetSprite'
 
 interface CollectionModalProps {
   onClose: () => void
@@ -57,7 +59,9 @@ export default function CollectionModal({ onClose }: CollectionModalProps) {
         <div className="flex-1 overflow-y-auto space-y-2 hide-scrollbar -mx-2 px-2">
           {pets.length === 0 ? (
             <div className="text-center text-gray-500 py-8 glass rounded-2xl">
-              <span className="text-5xl block mb-3 animate-float">🥚</span>
+              <div className="animate-float mb-3 flex justify-center">
+                <EggIcon size={64} />
+              </div>
               <p className="font-medium">No pets yet!</p>
               <p className="text-sm mt-1">Hatch your first one!</p>
             </div>
@@ -83,11 +87,10 @@ export default function CollectionModal({ onClose }: CollectionModalProps) {
                     animationDelay: `${index * 50}ms`
                   }}
                 >
-                  {/* Pet emoji with glow */}
+                  {/* Pet sprite with glow */}
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center
                                   ${isActive ? 'bg-pink-500/20' : 'bg-white/5'}`}>
-                    <span
-                      className="text-3xl"
+                    <div
                       style={{
                         filter: species.rarity >= 4
                           ? `drop-shadow(0 0 10px ${species.color})`
@@ -96,8 +99,8 @@ export default function CollectionModal({ onClose }: CollectionModalProps) {
                           : 'none'
                       }}
                     >
-                      {species.emoji}
-                    </span>
+                      <PetSprite speciesId={pet.speciesId} mood={getPetMood(pet.stats)} size={40} />
+                    </div>
                   </div>
 
                   {/* Pet info */}
@@ -110,7 +113,7 @@ export default function CollectionModal({ onClose }: CollectionModalProps) {
                     </div>
                     <div className="flex items-center gap-2 text-xs mt-1">
                       <span className={`rarity-${species.rarity}`}>
-                        {'⭐'.repeat(species.rarity)}
+                        <RarityStars count={species.rarity} size={12} />
                       </span>
                       <span className="text-gray-500">|</span>
                       <span className={`font-medium ${
@@ -154,16 +157,19 @@ export default function CollectionModal({ onClose }: CollectionModalProps) {
                              }`}
                   title={isUnlocked ? species.name : '???'}
                 >
-                  <span
-                    className={isUnlocked ? '' : 'opacity-20 grayscale'}
-                    style={{
-                      filter: isUnlocked && species.rarity >= 4
-                        ? `drop-shadow(0 0 5px ${species.color})`
-                        : 'none'
-                    }}
-                  >
-                    {isUnlocked ? species.emoji : '❓'}
-                  </span>
+                  {isUnlocked ? (
+                    <div
+                      style={{
+                        filter: species.rarity >= 4
+                          ? `drop-shadow(0 0 5px ${species.color})`
+                          : 'none'
+                      }}
+                    >
+                      <PetSprite speciesId={species.id} mood="idle" size={28} />
+                    </div>
+                  ) : (
+                    <QuestionIcon size={20} />
+                  )}
                 </div>
               )
             })}

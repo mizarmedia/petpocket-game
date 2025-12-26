@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useGameStore } from '../stores/gameStore'
 import { playSound, haptic } from '../utils/feedback'
+import { CoinIcon, EggIcon, GiftIcon, FlameIcon, CelebrationIcon } from './ui/Icons'
 
 interface DailyRewardModalProps {
   onClose: () => void
@@ -53,11 +54,11 @@ export default function DailyRewardModal({ onClose }: DailyRewardModalProps) {
   }
 
   const getStreakMessage = () => {
-    if (loginStreak >= 30) return "LEGENDARY STREAK! 🌟"
-    if (loginStreak >= 14) return "Amazing dedication! 🔥"
-    if (loginStreak >= 7) return "One week strong! 💪"
-    if (loginStreak >= 3) return "Keep it up! ⭐"
-    return "Welcome back! 👋"
+    if (loginStreak >= 30) return "LEGENDARY STREAK!"
+    if (loginStreak >= 14) return "Amazing dedication!"
+    if (loginStreak >= 7) return "One week strong!"
+    if (loginStreak >= 3) return "Keep it up!"
+    return "Welcome back!"
   }
 
   return (
@@ -101,7 +102,7 @@ export default function DailyRewardModal({ onClose }: DailyRewardModalProps) {
         <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-400 to-red-500
                           rounded-full shadow-lg mb-2">
-            <span className="text-2xl">🔥</span>
+            <FlameIcon size={28} />
             <span className="text-xl font-bold text-white">{loginStreak} Day Streak!</span>
           </div>
           <p className="text-sm text-pink-200">{getStreakMessage()}</p>
@@ -111,8 +112,8 @@ export default function DailyRewardModal({ onClose }: DailyRewardModalProps) {
         {!claimed ? (
           <div className="bg-white/10 rounded-kawaii-lg p-6 mb-6 text-center">
             <p className="text-lg mb-4">Tap to claim your reward!</p>
-            <div className="text-6xl animate-kawaii-bounce">
-              {loginStreak >= 30 ? '🎁' : loginStreak >= 7 ? '🥚' : '💰'}
+            <div className="animate-kawaii-bounce flex justify-center">
+              {loginStreak >= 30 ? <GiftIcon size={72} /> : loginStreak >= 7 ? <EggIcon size={72} /> : <CoinIcon size={72} />}
             </div>
           </div>
         ) : (
@@ -120,12 +121,12 @@ export default function DailyRewardModal({ onClose }: DailyRewardModalProps) {
             <p className="text-xl font-bold mb-3 text-yellow-400">You received!</p>
             <div className="flex flex-col gap-3">
               <div className="flex items-center justify-center gap-2 text-2xl">
-                <span>💰</span>
+                <CoinIcon size={32} />
                 <span className="font-bold text-yellow-400">+{reward?.coins} coins</span>
               </div>
               {reward?.egg && (
                 <div className="flex items-center justify-center gap-2 text-2xl animate-kawaii-wiggle">
-                  <span>🥚</span>
+                  <EggIcon size={32} />
                   <span className="font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                     {reward.egg === 'epic' ? 'EPIC' : 'RARE'} Egg!
                   </span>
@@ -141,14 +142,14 @@ export default function DailyRewardModal({ onClose }: DailyRewardModalProps) {
           <div className="flex flex-row justify-center items-start gap-4">
             {loginStreak < 7 && (
               <div className="text-center px-4 py-3 rounded-xl bg-blue-500/20 min-w-[80px]">
-                <p className="text-2xl mb-1">🥚</p>
+                <div className="flex justify-center mb-1"><EggIcon size={32} /></div>
                 <p className="text-sm font-medium text-blue-300">Day 7</p>
                 <p className="text-xs text-gray-400 mt-1">{7 - loginStreak} days left</p>
               </div>
             )}
             {loginStreak < 30 && (
               <div className="text-center px-4 py-3 rounded-xl bg-purple-500/20 min-w-[80px]">
-                <p className="text-2xl mb-1">🎁</p>
+                <div className="flex justify-center mb-1"><GiftIcon size={32} /></div>
                 <p className="text-sm font-medium text-purple-300">Day 30</p>
                 <p className="text-xs text-gray-400 mt-1">{30 - loginStreak} days left</p>
               </div>
@@ -162,18 +163,20 @@ export default function DailyRewardModal({ onClose }: DailyRewardModalProps) {
             onClick={handleClaim}
             className="w-full py-3.5 bg-gradient-to-r from-yellow-500 to-amber-600
                       rounded-kawaii-lg font-bold text-white shadow-kawaii
-                      hover:scale-105 transition-transform active-kawaii-press"
+                      hover:scale-105 transition-transform active-kawaii-press flex items-center justify-center gap-2"
           >
-            Claim Reward! 🎁
+            <span>Claim Reward!</span>
+            <GiftIcon size={20} />
           </button>
         ) : (
           <button
             onClick={onClose}
             className="w-full py-3.5 bg-gradient-to-r from-green-500 to-emerald-600
                       rounded-kawaii-lg font-bold text-white shadow-kawaii
-                      hover:scale-105 transition-transform active-kawaii-press"
+                      hover:scale-105 transition-transform active-kawaii-press flex items-center justify-center gap-2"
           >
-            Awesome! 🎉
+            <span>Awesome!</span>
+            <CelebrationIcon size={20} />
           </button>
         )}
 

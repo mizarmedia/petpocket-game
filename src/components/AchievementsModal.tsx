@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useAchievementStore, ACHIEVEMENTS } from '../stores/achievementStore'
 import type { Achievement, AchievementProgress } from '../stores/achievementStore'
 import { useGameStore } from '../stores/gameStore'
+import { TrophyIcon, CoinIcon } from './ui/Icons'
 
 interface AchievementsModalProps {
   onClose: () => void
@@ -73,7 +74,7 @@ export default function AchievementsModal({ onClose }: AchievementsModalProps) {
         onClick={e => e.stopPropagation()}
       >
         <h2 className="text-2xl font-bold text-center mb-4 bg-gradient-to-r from-yellow-400 to-amber-500 bg-clip-text text-transparent flex items-center justify-center gap-2">
-          <span>🏆</span>
+          <TrophyIcon size={28} />
           <span>Achievements</span>
         </h2>
 
@@ -173,18 +174,21 @@ function AchievementCard({ achievement, progress, onClaim }: AchievementCardProp
       {isUnlocked && !isClaimed ? (
         <button
           onClick={onClaim}
-          className="w-full mt-2 py-1.5 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg text-xs font-bold text-white btn-press hover:scale-105 transition-transform animate-pulse"
+          className="w-full mt-2 py-1.5 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg text-xs font-bold text-white btn-press hover:scale-105 transition-transform animate-pulse flex items-center justify-center gap-1"
           aria-label={`Claim ${achievement.name} reward (${achievement.reward} coins)`}
         >
-          Claim {achievement.reward} 💰
+          <span>Claim {achievement.reward}</span>
+          <CoinIcon size={14} />
         </button>
       ) : isUnlocked && isClaimed ? (
-        <div className="mt-2 py-1.5 text-center text-xs text-green-400 font-medium">
-          ✓ Claimed
+        <div className="mt-2 py-1.5 text-center text-xs text-green-400 font-medium flex items-center justify-center gap-1">
+          <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>Claimed</span>
         </div>
       ) : (
-        <div className="mt-2 py-1.5 text-center text-xs text-gray-500">
-          +{achievement.reward} 💰
+        <div className="mt-2 py-1.5 text-center text-xs text-gray-500 flex items-center justify-center gap-1">
+          <span>+{achievement.reward}</span>
+          <CoinIcon size={12} />
         </div>
       )}
 

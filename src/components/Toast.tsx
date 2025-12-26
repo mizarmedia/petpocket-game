@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, createContext, useContext, type ReactNode } from 'react'
+import { CoinIcon, SparkleIcon, InfoIcon, WarningIcon } from './ui/Icons'
 
 // Toast types
 export type ToastType = 'coins' | 'success' | 'info' | 'warning' | 'error'
@@ -7,7 +8,7 @@ export interface Toast {
   id: number
   message: string
   type: ToastType
-  icon?: string
+  icon?: ReactNode
   duration?: number
 }
 
@@ -51,15 +52,15 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: () => void }) 
     }
   }, [toast.duration, onRemove])
 
-  const getIcon = () => {
+  const getIcon = (): ReactNode => {
     if (toast.icon) return toast.icon
     switch (toast.type) {
-      case 'coins': return '💰'
-      case 'success': return '✅'
-      case 'info': return 'ℹ️'
-      case 'warning': return '⚠️'
-      case 'error': return '❌'
-      default: return '✨'
+      case 'coins': return <CoinIcon size={28} />
+      case 'success': return <svg width={28} height={28} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      case 'info': return <InfoIcon size={28} />
+      case 'warning': return <WarningIcon size={28} />
+      case 'error': return <svg width={28} height={28} viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+      default: return <SparkleIcon size={28} className="text-yellow-300" />
     }
   }
 
@@ -130,7 +131,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 
   const showCoins = useCallback((amount: number) => {
     const sign = amount >= 0 ? '+' : ''
-    showToast(`${sign}${amount} coins!`, 'coins', '💰', 2000)
+    showToast(`${sign}${amount} coins!`, 'coins', undefined, 2000)
   }, [showToast])
 
   const showSuccess = useCallback((message: string) => {
